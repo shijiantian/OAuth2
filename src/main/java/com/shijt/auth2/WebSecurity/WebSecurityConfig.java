@@ -15,10 +15,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                //匹配以下规则的路径不需要登录
                 .antMatchers(HttpMethod.OPTIONS,GlobalConsts.login_no_need+"*").permitAll()
+                //匹配以下规则的路径需要授权登录
                 .antMatchers(GlobalConsts.login_need+"*").authenticated()
+                //其他uri一律需要授权
                 .anyRequest().authenticated()
                 .and()
+            //定义需要登录时跳转的登录页面
             .formLogin()
                 .and()
             .logout()
@@ -27,9 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        auth.inMemoryAuthentication()   //在内存中创建用户
                 .withUser("admin")
-                .password("{noop}admin")
+                .password("{noop}admin")    //https://stackoverflow.com/questions/46999940/spring-boot-passwordencoder-error
                 .roles("USER");
     }
 
