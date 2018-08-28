@@ -12,6 +12,7 @@ public class TestController {
 
     @RequestMapping(value = "helloWorld",method = RequestMethod.GET)
     public Object test(){
+
         return new ControllerResult("hello world!");
     }
 }
