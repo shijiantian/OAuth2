@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface TestMysqlDao {
 
-    public List<String> getAllStudents();
+    public List<String> getAllUsers();
 
 }

@@ -17,8 +17,8 @@ public class TestMysqlDaoImpl implements TestMysqlDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<String> getAllStudents() {
-        String sql="select * from test.students";
+    public List<String> getAllUsers() {
+        String sql="select * from test.user";
         List<Map<String,Object>> sqlResults=jdbcTemplate.queryForList(sql);
         List<String> nameList=sqlResults.stream().map(m->m.get("name").toString()).collect(Collectors.toList());
         return nameList;

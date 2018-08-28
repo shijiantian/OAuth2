@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface TestMysqlService {
 
-    public List<String> getStudentName();
+    public List<String> getUserName();
 }

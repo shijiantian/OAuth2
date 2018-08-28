@@ -13,8 +13,8 @@ public class TestMysqlServiceImpl implements TestMysqlService {
     private TestMysqlDao testMysqlDao;
 
     @Override
-    public List<String> getStudentName(){
-        List<String> results=testMysqlDao.getAllStudents();
+    public List<String> getUserName(){
+        List<String> results=testMysqlDao.getAllUsers();
         return results;
     }
 }

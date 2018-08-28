@@ -2,6 +2,7 @@ package com.shijt.auth2.controller;
 
 import com.shijt.auth2.commons.GlobalConsts;
 import com.shijt.auth2.services.TestMysqlService;
+import com.shijt.auth2.services.impl.TestMysqlServiceImpl;
 import com.shijt.auth2.vo.ControllerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class AuthTestController {
 
     @RequestMapping(value = "login",method = RequestMethod.GET)
     public Object helloWorld(){
-        List<String> studentName=mysqlService.getStudentName();
+        List<String> studentName=mysqlService.getUserName();
         return new ControllerResult(studentName);
     }
 }
