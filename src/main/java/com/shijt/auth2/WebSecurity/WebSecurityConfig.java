@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        super.configure(auth);    //当使用这行时，用户为默认用户user，密码在启动时通过UUID算法随机生成，可查看日志打印信息获取密码
         auth.inMemoryAuthentication()   //在内存中创建用户
                 .withUser("admin")
                 .password("{noop}admin")    //https://stackoverflow.com/questions/46999940/spring-boot-passwordencoder-error
