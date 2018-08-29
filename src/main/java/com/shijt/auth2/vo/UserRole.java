@@ -2,11 +2,15 @@ package com.shijt.auth2.vo;
 
 import com.shijt.auth2.commons.GlobalConsts;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "user_role",schema = GlobalConsts.db_schema)
 public class UserRole {
 
+    @Id
+    @GeneratedValue
     private Long id;
     private Long userId;
     private Long roleId;

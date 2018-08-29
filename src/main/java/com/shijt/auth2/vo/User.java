@@ -2,11 +2,16 @@ package com.shijt.auth2.vo;
 
 import com.shijt.auth2.commons.GlobalConsts;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "user",schema = GlobalConsts.db_schema)
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String password;
