@@ -1,16 +1,22 @@
 package com.shijt.auth2.WebSecurity;
 
 import com.shijt.auth2.commons.GlobalConsts;
+import com.shijt.auth2.services.impl.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -24,18 +30,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             //定义需要登录时跳转的登录页面
             .formLogin()
+                .permitAll() //登录页面用户任意访问
                 .and()
             .logout()
-                .permitAll();
+                .permitAll(); //注销行为任意访问
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        super.configure(auth);    //当使用这行时，用户为默认用户user，密码在启动时通过UUID算法随机生成，可查看日志打印信息获取密码
-        auth.inMemoryAuthentication()   //在内存中创建用户
-                .withUser("admin")
-                .password("{noop}admin")    //https://stackoverflow.com/questions/46999940/spring-boot-passwordencoder-error
-                .roles("USER");
+        //从数据库查询用户数据并设置密码的加密机制
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
+
 
 }
