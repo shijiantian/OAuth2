@@ -2,10 +2,12 @@ package com.shijt.auth2.vo;
 
 import com.shijt.auth2.commons.GlobalConsts;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Entity
 @Table(name = "user_role",schema = GlobalConsts.db_schema)
 public class UserRole {
 
