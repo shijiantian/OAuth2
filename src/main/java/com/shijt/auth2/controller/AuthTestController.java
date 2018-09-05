@@ -17,6 +17,7 @@ public class AuthTestController {
 
     @Autowired
     private TestMysqlService mysqlService;
+    @Autowired
 
     @RequestMapping(value = "login",method = RequestMethod.GET)
     public Object helloWorld(){
