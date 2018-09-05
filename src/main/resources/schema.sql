@@ -26,7 +26,8 @@ create table if not exists permission(
     url varchar(128) not null,
     http_method varchar(10) not null,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    primary key(id)
 )engine=InnoDB;
 create table if not exists role_permission(
     id bigint(20) not NULL auto_increment,
