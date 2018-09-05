@@ -3,7 +3,6 @@ package com.shijt.auth2.vo;
 import com.shijt.auth2.commons.GlobalConsts;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name =GlobalConsts.tb_role_permission,schema = GlobalConsts.db_schema)
@@ -13,7 +12,7 @@ public class RolePermission {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private long roleId;
-    private int permissionType;
+    private int permissionId;
 
     public long getId() {
         return id;
@@ -31,11 +30,11 @@ public class RolePermission {
         this.roleId = roleId;
     }
 
-    public int getPermissionType() {
-        return permissionType;
+    public int getPermissionId() {
+        return permissionId;
     }
 
-    public void setPermissionType(int permissionType) {
-        this.permissionType = permissionType;
+    public void setPermissionId(int permissionId) {
+        this.permissionId = permissionId;
     }
 }

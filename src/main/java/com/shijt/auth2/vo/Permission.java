@@ -2,22 +2,23 @@ package com.shijt.auth2.vo;
 
 import com.shijt.auth2.commons.GlobalConsts;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name=GlobalConsts.tb_permission,schema = GlobalConsts.db_schema)
 public class Permission {
 
-    private int type;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
     private String url;
 
-    public int getType() {
-        return type;
+    public long getId() {
+        return id;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUrl() {
