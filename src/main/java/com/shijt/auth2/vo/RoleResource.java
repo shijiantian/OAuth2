@@ -5,7 +5,7 @@ import com.shijt.auth2.commons.GlobalConsts;
 import javax.persistence.*;
 
 @Entity
-@Table(name =GlobalConsts.tb_role_permission,schema = GlobalConsts.db_schema)
+@Table(name =GlobalConsts.tb_role_resource,schema = GlobalConsts.db_schema)
 public class RoleResource {
 
     @Id

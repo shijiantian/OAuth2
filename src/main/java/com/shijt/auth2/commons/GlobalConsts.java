@@ -9,6 +9,6 @@ public class GlobalConsts {
     public static final String tb_user="user";
     public static final String tb_role="role";
     public static final String tb_user_role="user_role";
-    public static final String tb_permission="permission";
-    public static final String tb_role_permission="role_permission";
+    public static final String tb_resource="resource";
+    public static final String tb_role_resource="role_resource";
 }
