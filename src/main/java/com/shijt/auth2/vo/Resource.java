@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name=GlobalConsts.tb_permission,schema = GlobalConsts.db_schema)
-public class Permission {
+public class Resource {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

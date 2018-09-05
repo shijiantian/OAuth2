@@ -21,7 +21,7 @@ create table if not exists user_role(
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(id)
 )engine=InnoDB;
-create table if not exists permission(
+create table if not exists resource(
     id bigint(20) not null DEFAULT 0,
     url varchar(128) not null,
     http_method varchar(10) not null,
@@ -29,10 +29,10 @@ create table if not exists permission(
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(id)
 )engine=InnoDB;
-create table if not exists role_permission(
+create table if not exists role_resource(
     id bigint(20) not NULL auto_increment,
     role_id bigint(20) not null,
-    permission_id int not null,
+    resource_id int not null,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(id)

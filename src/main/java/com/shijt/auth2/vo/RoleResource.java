@@ -6,13 +6,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name =GlobalConsts.tb_role_permission,schema = GlobalConsts.db_schema)
-public class RolePermission {
+public class RoleResource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private long roleId;
-    private int permissionId;
+    private int resourceId;
 
     public long getId() {
         return id;
@@ -30,11 +30,11 @@ public class RolePermission {
         this.roleId = roleId;
     }
 
-    public int getPermissionId() {
-        return permissionId;
+    public int getResourceId() {
+        return resourceId;
     }
 
-    public void setPermissionId(int permissionId) {
-        this.permissionId = permissionId;
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
     }
 }

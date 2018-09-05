@@ -1,10 +1,9 @@
 package com.shijt.auth2.services.impl;
 
-import com.shijt.auth2.dao.PermissionDao;
-import com.shijt.auth2.dao.RolePermissionDao;
+import com.shijt.auth2.dao.ResourceDao;
+import com.shijt.auth2.dao.RoleResourceDao;
 import com.shijt.auth2.dao.TestMysqlDao;
 import com.shijt.auth2.services.TestMysqlService;
-import com.shijt.auth2.vo.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,18 +14,18 @@ public class TestMysqlServiceImpl implements TestMysqlService {
     @Autowired
     private TestMysqlDao testMysqlDao;
     @Autowired
-    private PermissionDao permissionDao;
+    private ResourceDao resourceDao;
     @Autowired
-    private RolePermissionDao rolePermissionDao;
+    private RoleResourceDao roleResourceDao;
 
     @Override
     public List<String> getUserName(){
         List<String> results=testMysqlDao.getAllUsers();
-        permissionDao.findAll().iterator().forEachRemaining(vo->{
+        resourceDao.findAll().iterator().forEachRemaining(vo->{
             results.add(vo.getUrl());
         });
-        rolePermissionDao.findAll().iterator().forEachRemaining(vo->{
-            results.add(""+vo.getPermissionId());
+        roleResourceDao.findAll().iterator().forEachRemaining(vo->{
+            results.add(""+vo.getResourceId());
         });
         return results;
     }
