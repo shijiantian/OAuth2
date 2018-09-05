@@ -21,3 +21,17 @@ create table if not exists user_role(
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(id)
 )engine=InnoDB;
+create table if not exists permission(
+    type int not null,
+    url varchar(128) not null,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)engine=InnoDB;
+create table if not exists role_permission(
+    id bigint(20) not NULL auto_increment,
+    role_id bigint(20) not null,
+    permission_type int not null,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    primary key(id)
+)engine=InnoDB;
