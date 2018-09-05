@@ -5,7 +5,7 @@ import com.shijt.auth2.commons.GlobalConsts;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user",schema = GlobalConsts.db_schema)
+@Table(name = GlobalConsts.tb_user,schema = GlobalConsts.db_schema)
 public class User {
 
     @Id

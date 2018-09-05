@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "role",schema = GlobalConsts.db_schema)
+@Table(name = GlobalConsts.tb_role,schema = GlobalConsts.db_schema)
 public class Role {
 
     @Id
