@@ -3,10 +3,8 @@ package com.shijt.auth2.vo;
 import com.shijt.auth2.commons.GlobalConsts;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = GlobalConsts.tb_role,schema = GlobalConsts.db_schema)
@@ -16,6 +14,8 @@ public class Role implements GrantedAuthority {
     @GeneratedValue
     private Long id;
     private String name;
+    @Transient
+    private Set<String> resourceIds;
 
     public Long getId() {
         return id;
@@ -31,6 +31,14 @@ public class Role implements GrantedAuthority {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<String> getResourceIds() {
+        return resourceIds;
+    }
+
+    public void setResourceIds(Set<String> resourceIds) {
+        this.resourceIds = resourceIds;
     }
 
     @Override

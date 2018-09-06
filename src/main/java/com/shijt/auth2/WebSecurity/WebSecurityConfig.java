@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 @Configuration
 @EnableWebSecurity
@@ -17,12 +18,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private SecurityInterceptorFilter securityInterceptorFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //匹配以下规则的路径不需要登录
-                .antMatchers(HttpMethod.OPTIONS,GlobalConsts.login_no_need+"*").permitAll()
+                .antMatchers(GlobalConsts.login_no_need+"*").permitAll()
                 //匹配以下规则的路径需要授权登录
                 .antMatchers(GlobalConsts.login_need+"*").authenticated()
                 //其他uri一律需要授权
@@ -33,7 +36,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll() //登录页面用户任意访问
                 .and()
             .logout()
-                .permitAll(); //注销行为任意访问
+                .permitAll() //注销行为任意访问
+                .and()
+            .addFilterBefore(securityInterceptorFilter,FilterSecurityInterceptor.class)
+        ;
+
     }
 
     @Override

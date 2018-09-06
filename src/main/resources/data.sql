@@ -3,4 +3,4 @@ replace INTO role(id,name) VALUES (1,'admin'),(2,'user');
 replace INTO user_role(id,user_id,role_id) VALUES (1,1,1),(2,2,2);
 replace INTO resource(id,url,http_method) VALUES(100,'/api/login','GET');
 replace INTO resource(id,url,http_method) VALUES(200,'/openapi/helloworld','GET');
-replace INTO role_resource(id,role_id,resource_id) VALUES(1,1,100),(2,2,200);
+replace INTO role_resource(id,role_id,resource_id) VALUES(1,1,100),(2,2,200),(3,1,200);
