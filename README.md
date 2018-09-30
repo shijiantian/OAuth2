@@ -7,3 +7,5 @@
 分支1.2 在数据库中管理角色权限
 
 分支1.3 集成swagger
+
+分支1.4 集成redis和OAuth2.0,通过redis存储token
