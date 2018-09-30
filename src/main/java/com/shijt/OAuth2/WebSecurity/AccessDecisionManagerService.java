@@ -28,7 +28,6 @@ public class AccessDecisionManagerService implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         if(null==configAttributes||configAttributes.size()<1)return;
-
         HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
         ConfigAttribute cfgAttr;
         String resourceId;
