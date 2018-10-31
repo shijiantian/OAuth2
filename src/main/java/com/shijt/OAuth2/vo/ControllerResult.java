@@ -1,4 +1,4 @@
-package com.shijt.oauth2.vo;
+package com.shijt.OAuth2.vo;
 
 public class ControllerResult {
 
