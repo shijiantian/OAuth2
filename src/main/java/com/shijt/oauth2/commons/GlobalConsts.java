@@ -1,4 +1,4 @@
-package com.shijt.auth2.commons;
+package com.shijt.oauth2.commons;
 
 public class GlobalConsts {
 

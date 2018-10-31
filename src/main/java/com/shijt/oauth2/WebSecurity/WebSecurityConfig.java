@@ -1,6 +1,6 @@
-package com.shijt.auth2.WebSecurity;
+package com.shijt.oauth2.WebSecurity;
 
-import com.shijt.auth2.commons.GlobalConsts;
+import com.shijt.oauth2.commons.GlobalConsts;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
