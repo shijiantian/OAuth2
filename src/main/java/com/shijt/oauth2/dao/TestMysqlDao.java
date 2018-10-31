@@ -1,4 +1,4 @@
-package com.shijt.auth2.dao;
+package com.shijt.oauth2.dao;
 
 import java.util.List;
 

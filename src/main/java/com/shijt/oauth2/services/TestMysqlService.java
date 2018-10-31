@@ -1,4 +1,4 @@
-package com.shijt.auth2.services;
+package com.shijt.oauth2.services;
 
 import java.util.List;
 

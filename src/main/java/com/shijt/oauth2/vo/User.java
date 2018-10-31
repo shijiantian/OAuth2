@@ -1,6 +1,6 @@
-package com.shijt.auth2.vo;
+package com.shijt.oauth2.vo;
 
-import com.shijt.auth2.commons.GlobalConsts;
+import com.shijt.oauth2.commons.GlobalConsts;
 
 import javax.persistence.*;
 

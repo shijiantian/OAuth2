@@ -1,7 +1,7 @@
-package com.shijt.auth2.WebSecurity;
+package com.shijt.oauth2.WebSecurity;
 
-import com.shijt.auth2.commons.GlobalConsts;
-import com.shijt.auth2.services.impl.UserDetailsServiceImpl;
+import com.shijt.oauth2.commons.GlobalConsts;
+import com.shijt.oauth2.services.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //匹配以下规则的路径不需要登录
-                .antMatchers(HttpMethod.OPTIONS,GlobalConsts.login_no_need+"*").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, GlobalConsts.login_no_need+"*").permitAll()
                 //匹配以下规则的路径需要授权登录
                 .antMatchers(GlobalConsts.login_need+"*").authenticated()
                 //其他uri一律需要授权

@@ -1,7 +1,7 @@
-package com.shijt.auth2.dao;
+package com.shijt.oauth2.dao;
 
-import com.shijt.auth2.commons.GlobalConsts;
-import com.shijt.auth2.vo.UserRole;
+import com.shijt.oauth2.commons.GlobalConsts;
+import com.shijt.oauth2.vo.UserRole;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

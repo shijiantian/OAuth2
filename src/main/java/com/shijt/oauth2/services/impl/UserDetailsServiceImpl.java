@@ -1,18 +1,16 @@
-package com.shijt.auth2.services.impl;
+package com.shijt.oauth2.services.impl;
 
-import com.shijt.auth2.dao.RoleDao;
-import com.shijt.auth2.dao.UserDao;
-import com.shijt.auth2.dao.UserRoleDao;
-import com.shijt.auth2.vo.Role;
-import com.shijt.auth2.vo.User;
-import com.shijt.auth2.vo.UserRole;
+import com.shijt.oauth2.dao.RoleDao;
+import com.shijt.oauth2.dao.UserDao;
+import com.shijt.oauth2.dao.UserRoleDao;
+import com.shijt.oauth2.vo.Role;
+import com.shijt.oauth2.vo.User;
+import com.shijt.oauth2.vo.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

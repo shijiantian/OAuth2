@@ -1,10 +1,9 @@
-package com.shijt.auth2.dao.impl;
+package com.shijt.oauth2.dao.impl;
 
-import com.shijt.auth2.dao.TestMysqlDao;
+import com.shijt.oauth2.dao.TestMysqlDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
