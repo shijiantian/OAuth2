@@ -1,6 +1,6 @@
-package com.shijt.oauth2.vo;
+package com.shijt.OAuth2.vo;
 
-import com.shijt.oauth2.commons.GlobalConsts;
+import com.shijt.OAuth2.commons.GlobalConsts;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

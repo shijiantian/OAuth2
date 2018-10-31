@@ -1,7 +1,7 @@
-package com.shijt.oauth2.WebSecurity;
+package com.shijt.OAuth2.WebSecurity;
 
-import com.shijt.oauth2.commons.GlobalConsts;
-import com.shijt.oauth2.services.impl.UserDetailsServiceImpl;
+import com.shijt.OAuth2.commons.GlobalConsts;
+import com.shijt.OAuth2.services.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

@@ -1,7 +1,7 @@
-package com.shijt.oauth2.services.impl;
+package com.shijt.OAuth2.services.impl;
 
-import com.shijt.oauth2.dao.TestMysqlDao;
-import com.shijt.oauth2.services.TestMysqlService;
+import com.shijt.OAuth2.dao.TestMysqlDao;
+import com.shijt.OAuth2.services.TestMysqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

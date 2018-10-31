@@ -1,11 +1,11 @@
-package com.shijt.oauth2.services.impl;
+package com.shijt.OAuth2.services.impl;
 
-import com.shijt.oauth2.dao.RoleDao;
-import com.shijt.oauth2.dao.UserDao;
-import com.shijt.oauth2.dao.UserRoleDao;
-import com.shijt.oauth2.vo.Role;
-import com.shijt.oauth2.vo.User;
-import com.shijt.oauth2.vo.UserRole;
+import com.shijt.OAuth2.dao.RoleDao;
+import com.shijt.OAuth2.dao.UserDao;
+import com.shijt.OAuth2.dao.UserRoleDao;
+import com.shijt.OAuth2.vo.Role;
+import com.shijt.OAuth2.vo.User;
+import com.shijt.OAuth2.vo.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
