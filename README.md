@@ -1,4 +1,4 @@
-本项目是springboot+gradle+auth2的一个项目，用于学习归纳和总结。
+本项目是springboot+gradle+oauth2的一个项目，用于学习归纳和总结。
 
 分支1.0 集成spring security,并在内存中创建用户admin。
 
