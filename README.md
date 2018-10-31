@@ -8,4 +8,4 @@
 
 分支1.3 集成swagger
 
-分支1.4 集成redis和OAuth2.0,通过redis存储token
+分支1.4 集成redis和OAuth2.0密码模式,通过redis存储token
