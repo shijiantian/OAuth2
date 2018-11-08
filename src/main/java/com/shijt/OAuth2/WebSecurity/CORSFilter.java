@@ -23,9 +23,11 @@ public class CORSFilter implements Filter {
 
         response.setHeader("Access-Control-Allow-Origin","*");
         response.setHeader("Access-Control-Allow-Methods","*");
-        //预检请求的结果可以被缓存的最大秒数
+        //预检请求的有效期
         response.setHeader("Access-Control-Max-Age","3600");
+
         response.setHeader("Access-Control-Allow-Headers","*");
+        response.setHeader("Access-Control-Expose-Headers","Location");
 
         if("OPTIONS".equalsIgnoreCase(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_OK);
