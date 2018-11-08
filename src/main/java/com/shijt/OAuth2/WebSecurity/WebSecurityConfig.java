@@ -22,9 +22,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //匹配以下规则的路径不需要登录
-                .antMatchers("/oauth/token").permitAll();
-
+            //匹配以下规则的路径不需要登录
+            .antMatchers("/oauth/token").permitAll();
     }
 
     @Override
