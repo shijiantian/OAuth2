@@ -41,7 +41,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                .withClient("myClient")
                .secret("{noop}mypassword")
-               .authorizedGrantTypes("authorization_code","password")
+               .authorizedGrantTypes("authorization_code","refresh_token","password")
                .scopes("all")
                .accessTokenValiditySeconds(GlobalConsts.access_token_valid_sec)
                .refreshTokenValiditySeconds(GlobalConsts.refresh_token_valid_sec);
