@@ -1,6 +1,7 @@
 package com.shijt.OAuth2.WebSecurity;
 
 import com.shijt.OAuth2.commons.GlobalConsts;
+import com.shijt.OAuth2.controller.LogoutController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
