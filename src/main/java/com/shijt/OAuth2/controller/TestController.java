@@ -1,7 +1,7 @@
 package com.shijt.OAuth2.controller;
 
 import com.shijt.OAuth2.commons.GlobalConsts;
-import com.shijt.OAuth2.vo.ControllerResult;
+import com.shijt.OAuth2.dto.ControllerResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
