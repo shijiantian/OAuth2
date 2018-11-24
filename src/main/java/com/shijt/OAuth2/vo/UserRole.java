@@ -2,17 +2,14 @@ package com.shijt.OAuth2.vo;
 
 import com.shijt.OAuth2.commons.GlobalConsts;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = GlobalConsts.tb_user_role,schema = GlobalConsts.db_schema)
 public class UserRole {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
     private Long roleId;

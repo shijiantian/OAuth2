@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class RoleResource {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long roleId;
     private int resourceId;

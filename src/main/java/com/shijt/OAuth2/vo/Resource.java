@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Resource {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
     private String url;
 
