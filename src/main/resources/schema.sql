@@ -37,3 +37,15 @@ create table if not exists role_resource(
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(id)
 )engine=InnoDB;
+
+create table if not exists expense_history(
+    id bigint(20) not null auto_increment,
+    water_count smallint,
+    water_price tinyint,
+    elec_count smallint,
+    elec_price tinyint,
+    expense_date date not null,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    primary key(id)
+)engine=InnoDB;
