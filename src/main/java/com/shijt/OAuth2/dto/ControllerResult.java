@@ -1,4 +1,4 @@
-package com.shijt.OAuth2.vo;
+package com.shijt.OAuth2.dto;
 
 public class ControllerResult {
 
@@ -6,6 +6,7 @@ public class ControllerResult {
     private Object errorCode;
     private Object errorMsg;
 
+    public ControllerResult(){}
 
     public ControllerResult(Object result) {
         this.result = result;
