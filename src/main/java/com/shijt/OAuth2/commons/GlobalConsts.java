@@ -11,6 +11,7 @@ public class GlobalConsts {
     public static final String tb_user_role="user_role";
     public static final String tb_resource="resource";
     public static final String tb_role_resource="role_resource";
+    public static final String tb_expense_history="expense_history";
 
     public static final int    access_token_valid_sec=120;
     public static final int    refresh_token_valid_sec=600;
