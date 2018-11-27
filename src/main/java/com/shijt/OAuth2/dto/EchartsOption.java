@@ -1,7 +1,5 @@
 package com.shijt.OAuth2.dto;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-
 import java.io.Serializable;
 
 public class EchartsOption implements Serializable {
