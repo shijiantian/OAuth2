@@ -41,9 +41,9 @@ create table if not exists role_resource(
 create table if not exists expense_history(
     id bigint(20) not null auto_increment,
     water_count smallint,
-    water_price tinyint,
+    water_price decimal(4,2),
     elec_count smallint,
-    elec_price tinyint,
+    elec_price decimal(4,2),
     expense_date date not null,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
