@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
@@ -31,9 +30,9 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         Map<String,Integer> waterCountMap= expenseHistorys.stream()
                 .collect(Collectors.toMap(vo->DateFormatUtil.date2MonthStr(vo.getExpenseDate()),ExpenseHistory::getWaterCount));
 
-        Map<String,Integer> elecCountMap=StreamSupport.stream(expenseHistorys.spliterator(),false)
+        Map<String,Integer> elecCountMap= expenseHistorys.stream()
                 .collect(Collectors.toMap(vo->DateFormatUtil.date2MonthStr(vo.getExpenseDate()),ExpenseHistory::getElecCount));
-        List<ExpenseHistoryDto> resultList=new ArrayList<ExpenseHistoryDto>();
+        List<ExpenseHistoryDto> resultList= new ArrayList<>();
         for(int i=0;i<expenseHistorys.size()-1;i++){
             ExpenseHistory vo=expenseHistorys.get(i);
             Date laseMonth=DateFormatUtil.getPreviousMonth(vo.getExpenseDate(),-1);
@@ -63,8 +62,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     public List<ExpenseHistory> getPageSelectResult(int pageNo, int pageSize,int overflow){
         //计算起始位置
         int startPosition=(pageNo-1)*(pageSize);
-        List<ExpenseHistory> result=expenseHistoryDao.findByPage(startPosition,pageSize+overflow);
-        return result;
+        return expenseHistoryDao.findByPage(startPosition,pageSize+overflow);
     }
 
     @Override
@@ -95,8 +93,8 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         float[] elecSeries=new float[data.size()];
         float[] totalSeries=new float[data.size()];
         int size=data.size()-1;
-        for(int i=0;i<=size;i++){
-            ExpenseHistoryDto vo=data.get(i);
+        for(int i=0,j=size;i<=size;i++,j--){
+            ExpenseHistoryDto vo=data.get(j);
             xAxisData[i]=vo.getExpenseDate();
             waterSeries[i]=vo.getWaterCount()*vo.getWaterPrice();
             elecSeries[i]=vo.getElecCount()*vo.getElecPrice();
