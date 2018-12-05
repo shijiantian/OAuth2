@@ -23,6 +23,7 @@ create table if not exists user_role(
 )engine=InnoDB;
 create table if not exists resource(
     id bigint(20) not null DEFAULT 0,
+    resource_id bigint(20) not null,
     url varchar(128) not null,
     http_method varchar(10) not null,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
