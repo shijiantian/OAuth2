@@ -1,9 +1,15 @@
 package com.shijt.OAuth2.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class ExpenseHistoryDto {
+    @NotNull
     private Integer waterCount;
+    @NotNull
     private Float waterPrice;
+    @NotNull
     private Integer elecCount;
+    @NotNull
     private Float elecPrice;
     private String expenseDate;
 
