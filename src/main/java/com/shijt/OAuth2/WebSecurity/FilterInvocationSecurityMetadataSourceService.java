@@ -55,7 +55,7 @@ public class FilterInvocationSecurityMetadataSourceService implements FilterInvo
         Iterable<Resource> resources= resourceDao.findAll();
         resources.forEach(resource->{
             Collection<ConfigAttribute> cfgAttrs=new ArrayList<>();
-            ConfigAttribute cfgAttr=new SecurityConfig(""+resource.getId());
+            ConfigAttribute cfgAttr=new SecurityConfig(""+resource.getResourceId());
             cfgAttrs.add(cfgAttr);
             cfgAttrMap.put(resource.getUrl(),cfgAttrs);
 
