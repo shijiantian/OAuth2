@@ -1,14 +1,20 @@
 package com.shijt.OAuth2.services.impl;
 
 import com.shijt.OAuth2.Utils.DateFormatUtil;
+import com.shijt.OAuth2.commons.GlobalConsts;
 import com.shijt.OAuth2.dao.ExpenseHistoryDao;
 import com.shijt.OAuth2.dto.ControllerResult;
 import com.shijt.OAuth2.dto.EchartsOption;
 import com.shijt.OAuth2.dto.ExpenseHistoryDto;
 import com.shijt.OAuth2.services.ExpenseHistoryService;
 import com.shijt.OAuth2.vo.ExpenseHistory;
+import com.sun.xml.internal.ws.protocol.xml.XMLMessageException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,6 +24,8 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
 
     @Autowired
     private ExpenseHistoryDao expenseHistoryDao;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public ControllerResult getExpenseHistory(int pageNo,int pageSize) {
@@ -111,5 +119,57 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         option.setSeries(series);
         option.setxAxis(xAxis);
         return option;
+    }
+
+    /**
+     * 校验参数
+     * @param expenseHistoryDto
+     */
+    @Override
+    public void validate(ExpenseHistoryDto expenseHistoryDto) {
+        boolean exist=this.existsByMonth(expenseHistoryDto.getExpenseDate());
+        if(!exist){
+            throw new XMLMessageException("当月数据已存在", GlobalConsts.error_code);
+        }
+    }
+
+    @Override
+    public List<ExpenseHistory> findByParams(ExpenseHistoryDto expenseHistoryDto) {
+        StringBuilder sql=new StringBuilder("select * ");
+        sql.append(" from ").append(GlobalConsts.db_schema).append(".").append(GlobalConsts.tb_expense_history);
+        sql.append(" t where 1=1 ");
+        if(StringUtils.hasText(expenseHistoryDto.getExpenseDate()))
+            sql.append(" and t.expense_date=").append(expenseHistoryDto.getExpenseDate());
+        if(expenseHistoryDto.getElecCount()!=null)
+            sql.append(" and t.elec_count>=").append(expenseHistoryDto.getElecCount());
+        if(expenseHistoryDto.getWaterCount()!=null)
+            sql.append(" and t.water_count>=").append(expenseHistoryDto.getWaterCount());
+        RowMapper<ExpenseHistory> rowMapper=new BeanPropertyRowMapper<>(ExpenseHistory.class);
+        List<ExpenseHistory> result=jdbcTemplate.query(sql.toString(),rowMapper);
+        return result;
+
+    }
+
+    @Override
+    public boolean existsByMonth(String expenseDateStr) {
+        Date expenseDate=DateFormatUtil.str2DayDate(expenseDateStr);
+        Calendar startTime=Calendar.getInstance();
+        startTime.setTime(expenseDate);
+        Calendar endTime=Calendar.getInstance();
+        endTime.setTime(expenseDate);
+        startTime.set(Calendar.DAY_OF_MONTH,1);
+        endTime.add(Calendar.MONTH,1);
+        endTime.set(Calendar.DAY_OF_MONTH,1);
+        StringBuilder sql=new StringBuilder("select count(t.id) ");
+        sql.append(" from ").append(GlobalConsts.db_schema).append(".").append(GlobalConsts.tb_expense_history);
+        sql.append(" t where 1=1");
+        sql.append(" and t.expense_date>=").append(DateFormatUtil.date2DayStr(startTime.getTime()));
+        sql.append(" and t.expense_date<").append(DateFormatUtil.date2DayStr(endTime.getTime()));
+        Integer count=jdbcTemplate.queryForObject(sql.toString(),Integer.class);
+        if(count!=null&&count>0){
+            return true;
+        }else{
+             return false;
+        }
     }
 }
