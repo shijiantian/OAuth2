@@ -6,11 +6,21 @@ import javax.persistence.*;
 
 @Entity
 @Table(name=GlobalConsts.tb_resource,schema = GlobalConsts.db_schema)
-public class Resource {
+public class Resource extends BaseInfo {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
+    private long resourceId;
+
+    public long getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(long resourceId) {
+        this.resourceId = resourceId;
+    }
+
     private String url;
 
     public long getId() {

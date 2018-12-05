@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = GlobalConsts.tb_user_role,schema = GlobalConsts.db_schema)
-public class UserRole {
+public class UserRole extends BaseInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

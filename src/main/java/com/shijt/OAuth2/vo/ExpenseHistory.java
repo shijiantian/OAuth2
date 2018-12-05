@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity
 @Table(name=GlobalConsts.tb_expense_history,schema= GlobalConsts.db_schema)
-public class ExpenseHistory {
+public class ExpenseHistory extends BaseInfo{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

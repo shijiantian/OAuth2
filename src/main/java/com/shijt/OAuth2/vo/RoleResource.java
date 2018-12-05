@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name =GlobalConsts.tb_role_resource,schema = GlobalConsts.db_schema)
-public class RoleResource {
+public class RoleResource extends BaseInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

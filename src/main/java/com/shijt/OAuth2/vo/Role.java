@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = GlobalConsts.tb_role,schema = GlobalConsts.db_schema)
-public class Role implements GrantedAuthority {
+public class Role extends BaseInfo implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
