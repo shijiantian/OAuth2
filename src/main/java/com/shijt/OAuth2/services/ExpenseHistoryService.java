@@ -15,4 +15,10 @@ public interface ExpenseHistoryService {
     List<ExpenseHistory> getPageSelectResult(int pageNo, int pageSize,int overflow);
 
     Object getEchartsOption(List<ExpenseHistoryDto> data);
+
+    void validate(ExpenseHistoryDto expenseHistoryDto);
+
+    List<ExpenseHistory> findByParams(ExpenseHistoryDto expenseHistoryDto);
+
+    boolean existsByMonth(String expenseDateStr);
 }
