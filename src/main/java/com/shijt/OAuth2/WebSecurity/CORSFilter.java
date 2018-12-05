@@ -22,12 +22,17 @@ public class CORSFilter implements Filter {
         HttpServletResponse response= (HttpServletResponse) res;
 
         response.setHeader("Access-Control-Allow-Origin","*");
-        response.setHeader("Access-Control-Allow-Methods","*");
+//        response.setHeader("Access-Control-Allow-Methods","*");
+//        response.setHeader("Access-Control-Allow-Headers","*");
+        //设置为*在firefox中无法跨域，需要明确指出Methods与Headers
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, PATCH");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, " +
+                "authorization, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, " +
+                "Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With");
+        response.setHeader("Access-Control-Expose-Headers","Location");
+
         //预检请求的有效期
         response.setHeader("Access-Control-Max-Age","3600");
-
-        response.setHeader("Access-Control-Allow-Headers","*");
-        response.setHeader("Access-Control-Expose-Headers","Location");
 
         if("OPTIONS".equalsIgnoreCase(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_OK);
@@ -37,7 +42,7 @@ public class CORSFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
