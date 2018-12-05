@@ -128,7 +128,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     @Override
     public void validate(ExpenseHistoryDto expenseHistoryDto) {
         boolean exist=this.existsByMonth(expenseHistoryDto.getExpenseDate());
-        if(!exist){
+        if(exist){
             throw new XMLMessageException("当月数据已存在", GlobalConsts.error_code);
         }
     }
@@ -145,8 +145,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         if(expenseHistoryDto.getWaterCount()!=null)
             sql.append(" and t.water_count>=").append(expenseHistoryDto.getWaterCount());
         RowMapper<ExpenseHistory> rowMapper=new BeanPropertyRowMapper<>(ExpenseHistory.class);
-        List<ExpenseHistory> result=jdbcTemplate.query(sql.toString(),rowMapper);
-        return result;
+        return jdbcTemplate.query(sql.toString(),rowMapper);
 
     }
 
