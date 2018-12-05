@@ -7,6 +7,7 @@ import com.shijt.OAuth2.dto.ControllerResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Api(value="水电开销控制器")
@@ -23,7 +24,8 @@ public class ExpenseController {
     }
 
     @RequestMapping(value = "setHistoryExpense",method = RequestMethod.POST)
-    public Object setHistoryExpense(@RequestBody ExpenseHistoryDto expenseHistoryDto){
+    public Object setHistoryExpense(@RequestBody @Validated ExpenseHistoryDto expenseHistoryDto){
+        expenseHistoryService.validate(expenseHistoryDto);
         expenseHistoryService.setExpenseHistory(expenseHistoryDto);
         return new ControllerResult(200);
     }
