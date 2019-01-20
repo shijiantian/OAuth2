@@ -28,9 +28,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private TokenStore tokenStore;
-
     /**
      * 客户端详情配置
      * @param clients
@@ -64,7 +61,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore)
+        endpoints.tokenStore(tokenStore())
                  .authenticationManager(authenticationManager)
                  .userDetailsService(userDetailsService);
     }
