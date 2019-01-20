@@ -8,9 +8,9 @@ import com.shijt.OAuth2.dto.EchartsOption;
 import com.shijt.OAuth2.dto.ExpenseHistoryDto;
 import com.shijt.OAuth2.services.ExpenseHistoryService;
 import com.shijt.OAuth2.vo.ExpenseHistory;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -178,12 +178,66 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     @Override
     public Workbook getExcelWorkbook() {
         Workbook resultWb=new HSSFWorkbook();
-        Sheet sheet1=resultWb.createSheet("sheet1");
+        Sheet sheet1=resultWb.createSheet("水电明细");
+        setTitleRow(resultWb,sheet1);
+
+        List<ExpenseHistory> expenseHistories=expenseHistoryDao.findAllByDesc();
+        List<Cell> cellList=new ArrayList<>();
+        for(int i=0;i<expenseHistories.size()-1;i++){
+            Row row=sheet1.createRow(i+1);
+            cellList.clear();
+            for(int j=0;j<6;j++){
+                cellList.add(row.createCell(j));
+            }
+            ExpenseHistory vo1=expenseHistories.get(i);
+            ExpenseHistory vo2=expenseHistories.get(i+1);
+            int waterCount=vo1.getWaterCount()-vo2.getWaterCount();
+            int electCount=vo1.getElecCount()-vo2.getElecCount();
+            cellList.get(0).setCellValue(DateFormatUtil.date2DayStr(vo1.getExpenseDate()));
+            cellList.get(1).setCellValue(waterCount);
+            cellList.get(2).setCellValue(vo1.getWaterPrice());
+            cellList.get(3).setCellValue(electCount);
+            cellList.get(4).setCellValue(vo1.getElecPrice());
+            cellList.get(5).setCellValue(waterCount*vo1.getWaterPrice()+electCount*vo1.getElecPrice());
+        }
         try {
             resultWb.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return resultWb;
+    }
+
+    /**
+     * 设置标题行
+     * @param resultWb
+     * @param sheet1
+     */
+    private void setTitleRow(Workbook resultWb, Sheet sheet1) {
+        Row row0=sheet1.createRow(0);
+        List<Cell> cells=new ArrayList<>();
+        HSSFCellStyle titleStyle=((HSSFWorkbook) resultWb).createCellStyle();
+        for(int i=0;i<6;i++){
+            Cell cell=row0.createCell(i);
+            cell.setCellStyle(titleStyle);
+            cells.add(cell);
+            //SetColumnWidth的第二个参数要乘以256.因为这个参数的单位是1/256个字符宽度
+            //以下设置宽度为5个字符
+            sheet1.setColumnWidth(i,14*256);
+        }
+        cells.get(0).setCellValue("年月");
+        cells.get(1).setCellValue("用水量(吨)");
+        cells.get(2).setCellValue("水费(元)");
+        cells.get(3).setCellValue("用电量(度)");
+        cells.get(4).setCellValue("电费(元)");
+        cells.get(5).setCellValue("总计(元)");
+
+        Font font=resultWb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)14);
+        font.setColor(IndexedColors.RED.getIndex());
+        titleStyle.setFont(font);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+
     }
 }
