@@ -8,7 +8,9 @@ import com.shijt.OAuth2.dto.EchartsOption;
 import com.shijt.OAuth2.dto.ExpenseHistoryDto;
 import com.shijt.OAuth2.services.ExpenseHistoryService;
 import com.shijt.OAuth2.vo.ExpenseHistory;
-import com.sun.xml.internal.ws.protocol.xml.XMLMessageException;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +18,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -129,7 +132,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     public void validate(ExpenseHistoryDto expenseHistoryDto) {
         boolean exist=this.existsByMonth(expenseHistoryDto.getExpenseDate());
         if(exist){
-            throw new XMLMessageException("当月数据已存在", GlobalConsts.error_code);
+//            throw new XMLMessageException("当月数据已存在", GlobalConsts.error_code);
         }
     }
 
@@ -170,5 +173,17 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         }else{
              return false;
         }
+    }
+
+    @Override
+    public Workbook getExcelWorkbook() {
+        Workbook resultWb=new HSSFWorkbook();
+        Sheet sheet1=resultWb.createSheet("sheet1");
+        try {
+            resultWb.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resultWb;
     }
 }
