@@ -38,22 +38,34 @@ public class ExpenseController {
         return new ControllerResult(200);
     }
 
-    @RequestMapping(value = "getExcel",method = RequestMethod.GET)
-    public Object getExcel(){
-        Workbook wb=expenseHistoryService.getExcelWorkbook();
-        File outputDir=new File("tempFiles");
+    @RequestMapping(value = "getExcel/{type}",method = RequestMethod.GET)
+    public Object getExcel(@PathVariable("type") int type){
+        String dirName="tempFiles";
+        File outputDir=new File(dirName);
         if(!outputDir.exists()){
             outputDir.mkdirs();
         }
-
+        String fileName=null;
+        switch (type){
+            case 1 :
+                fileName="expense.xls";
+                break;
+            case 2 :
+                fileName="meterData.xls";
+                break;
+            default:
+                System.out.println("无此类型");
+                return new ControllerResult("无此类型",1001);
+        }
+        Workbook wb=expenseHistoryService.getExcelWorkbook(type);
         try {
-            FileOutputStream localStream=new FileOutputStream("tempFiles/expense.xls");
+            FileOutputStream localStream=new FileOutputStream(dirName+"/"+fileName);
             wb.write(localStream);
             localStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ControllerResult(excelFilesAddr+"expense.xls");
+        return new ControllerResult(excelFilesAddr+fileName);
 
     }
 

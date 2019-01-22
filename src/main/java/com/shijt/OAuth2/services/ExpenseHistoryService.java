@@ -23,5 +23,5 @@ public interface ExpenseHistoryService {
 
     boolean existsByMonth(String expenseDateStr);
 
-    Workbook getExcelWorkbook();
+    Workbook getExcelWorkbook(int type);
 }

@@ -80,7 +80,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     public Object getEchartsOption(List<ExpenseHistoryDto> data) {
         EchartsOption option =new EchartsOption();
         Map<String,String> title=new HashMap<>();
-        title.put("text","往月水电明细");
+        title.put("text","往月水电开支明细");
         option.setTitle(title);
 
         Map<String,String[]> legend=new HashMap<>();
@@ -176,10 +176,76 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     }
 
     @Override
-    public Workbook getExcelWorkbook() {
+    public Workbook getExcelWorkbook(int type) {
         Workbook resultWb=new HSSFWorkbook();
-        Sheet sheet1=resultWb.createSheet("水电明细");
-        setTitleRow(resultWb,sheet1);
+        switch (type){
+            case 1 :
+                createExpenseSheet(resultWb);
+                break;
+            case 2 :
+                createMeterDataSheet(resultWb);
+                break;
+            default:
+                System.out.println("暂无此类型!");
+                break;
+        }
+        try {
+            resultWb.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resultWb;
+    }
+
+    private void createMeterDataSheet(Workbook resultWb) {
+        Sheet sheet1=resultWb.createSheet("水表电表数据");
+        setMeterDataTitleRow(resultWb,sheet1);
+        List<ExpenseHistory> expenseHistories=expenseHistoryDao.findAllByDesc();
+        List<Cell> cellList=new ArrayList<>();
+        for(int i=0;i<expenseHistories.size();i++){
+            Row row=sheet1.createRow(i+1);
+            cellList.clear();
+            for(int j=0;j<5;j++){
+                cellList.add(row.createCell(j));
+            }
+            ExpenseHistory vo=expenseHistories.get(i);
+            cellList.get(0).setCellValue(DateFormatUtil.date2DayStr(vo.getExpenseDate()));
+            cellList.get(1).setCellValue(vo.getWaterCount());
+            cellList.get(2).setCellValue(vo.getWaterPrice());
+            cellList.get(3).setCellValue(vo.getElecCount());
+            cellList.get(4).setCellValue(vo.getElecPrice());
+        }
+    }
+
+    private void setMeterDataTitleRow(Workbook resultWb, Sheet sheet1) {
+        Row row0=sheet1.createRow(0);
+        List<Cell> cells=new ArrayList<>();
+        HSSFCellStyle titleStyle=((HSSFWorkbook) resultWb).createCellStyle();
+        for(int i=0;i<5;i++){
+            Cell cell=row0.createCell(i);
+            cell.setCellStyle(titleStyle);
+            cells.add(cell);
+            //SetColumnWidth的第二个参数要乘以256.因为这个参数的单位是1/256个字符宽度
+            //以下设置宽度为5个字符
+            sheet1.setColumnWidth(i,14*256);
+        }
+        cells.get(0).setCellValue("年月");
+        cells.get(1).setCellValue("水表数值(吨)");
+        cells.get(2).setCellValue("用水价格(元)");
+        cells.get(3).setCellValue("电表数值(度)");
+        cells.get(4).setCellValue("用电价格(元)");
+
+        Font font=resultWb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)16);
+        font.setColor(IndexedColors.RED.getIndex());
+        titleStyle.setFont(font);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+    }
+
+    private void createExpenseSheet(Workbook resultWb) {
+        Sheet sheet1=resultWb.createSheet("水电开支明细");
+        setExpenseTitleRow(resultWb,sheet1);
 
         List<ExpenseHistory> expenseHistories=expenseHistoryDao.findAllByDesc();
         List<Cell> cellList=new ArrayList<>();
@@ -200,12 +266,6 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
             cellList.get(4).setCellValue(vo1.getElecPrice());
             cellList.get(5).setCellValue(waterCount*vo1.getWaterPrice()+electCount*vo1.getElecPrice());
         }
-        try {
-            resultWb.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return resultWb;
     }
 
     /**
@@ -213,7 +273,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
      * @param resultWb
      * @param sheet1
      */
-    private void setTitleRow(Workbook resultWb, Sheet sheet1) {
+    private void setExpenseTitleRow(Workbook resultWb, Sheet sheet1) {
         Row row0=sheet1.createRow(0);
         List<Cell> cells=new ArrayList<>();
         HSSFCellStyle titleStyle=((HSSFWorkbook) resultWb).createCellStyle();
