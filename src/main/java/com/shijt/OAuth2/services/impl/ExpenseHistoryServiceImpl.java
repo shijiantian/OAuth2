@@ -1,5 +1,6 @@
 package com.shijt.OAuth2.services.impl;
 
+import com.shijt.OAuth2.Utils.DataConversionUtil;
 import com.shijt.OAuth2.Utils.DateFormatUtil;
 import com.shijt.OAuth2.commons.GlobalConsts;
 import com.shijt.OAuth2.dao.ExpenseHistoryDao;
@@ -124,18 +125,6 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         return option;
     }
 
-    /**
-     * 校验参数
-     * @param expenseHistoryDto
-     */
-    @Override
-    public void validate(ExpenseHistoryDto expenseHistoryDto) {
-        boolean exist=this.existsByMonth(expenseHistoryDto.getExpenseDate());
-        if(exist){
-//            throw new XMLMessageException("当月数据已存在", GlobalConsts.error_code);
-        }
-    }
-
     @Override
     public List<ExpenseHistory> findByParams(ExpenseHistoryDto expenseHistoryDto) {
         StringBuilder sql=new StringBuilder("select * ");
@@ -165,8 +154,9 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         StringBuilder sql=new StringBuilder("select count(t.id) ");
         sql.append(" from ").append(GlobalConsts.db_schema).append(".").append(GlobalConsts.tb_expense_history);
         sql.append(" t where 1=1");
-        sql.append(" and t.expense_date>=").append(DateFormatUtil.date2DayStr(startTime.getTime()));
-        sql.append(" and t.expense_date<").append(DateFormatUtil.date2DayStr(endTime.getTime()));
+        sql.append(" and t.expense_date>=\"").append(DateFormatUtil.date2DayStr(startTime.getTime()));
+        sql.append("\" and t.expense_date<\"").append(DateFormatUtil.date2DayStr(endTime.getTime()));
+        sql.append("\"");
         Integer count=jdbcTemplate.queryForObject(sql.toString(),Integer.class);
         if(count!=null&&count>0){
             return true;
@@ -298,6 +288,88 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         font.setColor(IndexedColors.RED.getIndex());
         titleStyle.setFont(font);
         titleStyle.setAlignment(HorizontalAlignment.CENTER);
+    }
 
+    public Workbook importMeterData(Workbook wb){
+        List<ExpenseHistory> resultList=new ArrayList();
+        List<String> errorInfoList=new ArrayList<>();
+        StringBuilder stringBuilder=new StringBuilder();
+        Sheet sheet=wb.getSheetAt(0);
+        for(int i=1;i<=sheet.getLastRowNum();i++){
+            int errorCount=0;
+            Row row=sheet.getRow(i);
+            if(row!=null){
+                ExpenseHistory vo=new ExpenseHistory();
+                row.getCell(0).setCellType(CellType.STRING);
+                row.getCell(1).setCellType(CellType.STRING);
+                row.getCell(2).setCellType(CellType.STRING);
+                row.getCell(3).setCellType(CellType.STRING);
+                row.getCell(4).setCellType(CellType.STRING);
+                vo.setExpenseDate(DateFormatUtil.str2DayDate(row.getCell(0).getStringCellValue()));
+                boolean existFlag=this.existsByMonth(row.getCell(0).getStringCellValue());
+                if(existFlag){
+                    errorCount++;
+                    stringBuilder.delete(0,stringBuilder.length());
+                    stringBuilder.append("第");
+                    stringBuilder.append(i+1);
+                    stringBuilder.append("行");
+                    stringBuilder.append(row.getCell(0).getStringCellValue());
+                    stringBuilder.append("数据已存在");
+                    errorInfoList.add(stringBuilder.toString());
+                }
+                String rowNum="第"+(i+1);
+                int waterCount=DataConversionUtil.str2Int(row.getCell(1).getStringCellValue(),-1);
+                if(waterCount==-1){
+                    errorCount++;
+                    errorInfoList.add(rowNum+"行水表数值格式错误");
+                }else{
+                    vo.setWaterCount(waterCount);
+                }
+                float waterPrice=DataConversionUtil.str2Float(row.getCell(2).getStringCellValue(),-1f);
+                if(waterPrice==-1f){
+                    errorCount++;
+                    errorInfoList.add(rowNum+"行用水价格格式错误");
+                }else{
+                    vo.setWaterPrice(waterPrice);
+                }
+                int elecCount=DataConversionUtil.str2Int(row.getCell(3).getStringCellValue(),-1);
+                if(elecCount==-1){
+                    errorCount++;
+                    errorInfoList.add(rowNum+"行水表数值格式错误");
+                }else{
+                    vo.setElecCount(elecCount);
+                }
+                float elecPrice=DataConversionUtil.str2Float(row.getCell(4).getStringCellValue(),-1f);
+                if(elecPrice==-1f){
+                    elecCount++;
+                    errorInfoList.add(rowNum+"行用电价格格式错误");
+                }else{
+                    vo.setElecPrice(elecPrice);
+                }
+                if(errorCount==0){
+                    resultList.add(vo);
+                }
+            }
+        }
+        expenseHistoryDao.saveAll(resultList);
+        if(!errorInfoList.isEmpty()){
+            return createErrorExcel(errorInfoList);
+        }else{
+            return null;
+        }
+    }
+
+    private Workbook createErrorExcel(List<String> errorInfoList) {
+        Workbook wb=new HSSFWorkbook();
+        Sheet sheet=wb.createSheet("导入错误汇总");
+        Row row0=sheet.createRow(0);
+        Cell cell0=row0.createCell(0);
+        cell0.setCellValue("错误信息");
+        for(int i=0;i<errorInfoList.size();i++){
+            Row row=sheet.createRow(i+1);
+            Cell cell=row.createCell(0);
+            cell.setCellValue(errorInfoList.get(i));
+        }
+        return wb;
     }
 }

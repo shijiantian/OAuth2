@@ -6,15 +6,18 @@ import com.shijt.OAuth2.dto.ExpenseHistoryDto;
 import com.shijt.OAuth2.services.ExpenseHistoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Api(value="水电开销控制器")
 @RestController
@@ -33,9 +36,13 @@ public class ExpenseController {
 
     @RequestMapping(value = "setHistoryExpense",method = RequestMethod.POST)
     public Object setHistoryExpense(@RequestBody @Validated ExpenseHistoryDto expenseHistoryDto){
-        expenseHistoryService.validate(expenseHistoryDto);
-        expenseHistoryService.setExpenseHistory(expenseHistoryDto);
-        return new ControllerResult(200);
+        boolean exist=expenseHistoryService.existsByMonth(expenseHistoryDto.getExpenseDate());
+        if(exist){
+            return new ControllerResult("当月数据已存在!",1001);
+        }else{
+            expenseHistoryService.setExpenseHistory(expenseHistoryDto);
+            return new ControllerResult(200);
+        }
     }
 
     @RequestMapping(value = "getExcel/{type}",method = RequestMethod.GET)
@@ -67,6 +74,33 @@ public class ExpenseController {
         }
         return new ControllerResult(excelFilesAddr+fileName);
 
+    }
+
+    @RequestMapping(value = "importMeterData",method = RequestMethod.POST)
+    public Object importMeterData(@RequestParam("importFile") MultipartFile importFile){
+        InputStream inputStream=null;
+        Workbook wb=null;
+        try {
+            inputStream=importFile.getInputStream();
+            wb=new HSSFWorkbook(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Workbook errorWb=expenseHistoryService.importMeterData(wb);
+        if(errorWb==null){
+            return new ControllerResult("上传成功");
+        }else{
+            String dirName="tempFiles";
+            String fileName="importErrors.xls";
+            try {
+                FileOutputStream localStream=new FileOutputStream(dirName+"/"+fileName);
+                errorWb.write(localStream);
+                localStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new ControllerResult(excelFilesAddr+fileName,1001);
+        }
     }
 
 }

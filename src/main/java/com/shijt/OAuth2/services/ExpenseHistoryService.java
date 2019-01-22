@@ -17,11 +17,11 @@ public interface ExpenseHistoryService {
 
     Object getEchartsOption(List<ExpenseHistoryDto> data);
 
-    void validate(ExpenseHistoryDto expenseHistoryDto);
-
     List<ExpenseHistory> findByParams(ExpenseHistoryDto expenseHistoryDto);
 
     boolean existsByMonth(String expenseDateStr);
 
     Workbook getExcelWorkbook(int type);
+
+    Workbook importMeterData(Workbook wb);
 }
