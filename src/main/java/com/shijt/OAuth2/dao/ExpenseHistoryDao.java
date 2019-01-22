@@ -16,4 +16,6 @@ public interface ExpenseHistoryDao extends CrudRepository<ExpenseHistory,Long> {
     @Query(value = "select * from "+GlobalConsts.db_schema+"."+GlobalConsts.tb_expense_history+" order by expense_date desc limit :offset,:pageSize",nativeQuery = true)
     List<ExpenseHistory> findByPage(@Param("offset")int offset,@Param("pageSize") int pageSize);
 
+    @Query(value ="select * from "+GlobalConsts.db_schema+"."+GlobalConsts.tb_expense_history+" order by expense_date desc",nativeQuery = true)
+    List<ExpenseHistory> findAllByDesc();
 }
