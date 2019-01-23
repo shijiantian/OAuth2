@@ -15,7 +15,6 @@ public class DataConversionUtil {
                 return defaultValue;
             }
         }
-
     }
 
     public static float str2Float(String value,float defaultValue){
@@ -42,6 +41,5 @@ public class DataConversionUtil {
                 return defaultValue;
             }
         }
-
     }
 }
