@@ -1,8 +1,9 @@
 package com.shijt.OAuth2.dto;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class ExpenseHistoryDto {
+public class ExpenseHistoryDto implements Serializable {
     @NotNull
     private Integer waterCount;
     @NotNull
