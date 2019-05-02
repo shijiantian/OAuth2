@@ -13,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -32,7 +33,9 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    @Cacheable(value="expense",key="#pageNo")
     public ControllerResult getExpenseHistory(int pageNo,int pageSize) {
+        System.out.println("-------------分页查询历史记录！--------------");
         //获取总数
         Integer totalCount=expenseHistoryDao.getTotalCount();
         //计算页面数量
