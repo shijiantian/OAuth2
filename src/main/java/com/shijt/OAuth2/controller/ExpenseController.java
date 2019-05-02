@@ -10,10 +10,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class ExpenseController {
     }
 
     @RequestMapping(value = "setHistoryExpense",method = RequestMethod.POST)
-    public Object setHistoryExpense(@RequestBody @Validated ExpenseHistoryDto expenseHistoryDto){
+    public Object setHistoryExpense(@RequestBody @Valid ExpenseHistoryDto expenseHistoryDto){
         boolean exist=expenseHistoryService.existsByMonth(expenseHistoryDto.getExpenseDate());
         if(exist){
             return new ControllerResult("当月数据已存在!",1001);

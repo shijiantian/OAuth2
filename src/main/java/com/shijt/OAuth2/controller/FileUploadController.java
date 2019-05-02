@@ -54,10 +54,10 @@ public class FileUploadController {
             e.printStackTrace();
         }
 
-        //Seek to position
+        //查找chunk位置
         raf.seek((resumableChunkNumber - 1) * (long)info.getResumableChunkSize());
 
-        //Save to file
+        //写入磁盘
         InputStream is = request.getInputStream();
         long readed = 0;
         long content_length = request.getContentLength();
@@ -73,7 +73,7 @@ public class FileUploadController {
         raf.close();
 
 
-        //Mark as uploaded.
+        //chunk上传完成.
         info.uploadedChunks.add(resumableChunkNumber);
         if (info.checkIfUploadFinished()) { //Check if all chunks uploaded, and change filename
             FileUploadInfoStorage.getInstance().remove(info);
