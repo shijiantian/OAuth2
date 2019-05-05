@@ -68,6 +68,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     }
 
     @Override
+    @Cacheable
     public void setExpenseHistory(ExpenseHistoryDto expenseHistoryDto) {
         ExpenseHistory expenseHistory=new ExpenseHistory(expenseHistoryDto);
         expenseHistoryDao.save(expenseHistory);
