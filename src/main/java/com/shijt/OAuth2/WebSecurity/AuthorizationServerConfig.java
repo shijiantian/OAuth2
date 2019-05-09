@@ -39,7 +39,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                .withClient("myClient")
                .secret("{noop}mypassword")
                .authorizedGrantTypes("authorization_code","refresh_token","password")
-               .scopes("all")
+               .scopes("all","read","write")
                .accessTokenValiditySeconds(GlobalConsts.access_token_valid_sec)
                .refreshTokenValiditySeconds(GlobalConsts.refresh_token_valid_sec);
     }
