@@ -17,11 +17,26 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private SecurityInterceptorFilter securityInterceptorFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+            GlobalConsts.login_no_need+"*",
+            // -- swagger ui
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/static/**",
+            "/login.html",
+            "/index.html"
+    };
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //匹配以下规则的路径不需要登录
-                .antMatchers(GlobalConsts.login_no_need+"*").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 //匹配以下规则的路径需要授权登录
                 .antMatchers(GlobalConsts.login_need+"*").authenticated()
                 //其他uri一律需要授权
