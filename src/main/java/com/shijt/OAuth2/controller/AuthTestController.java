@@ -19,7 +19,7 @@ public class AuthTestController {
     @Autowired
     private TestMysqlService mysqlService;
 
-    @ApiOperation(value = "登录测试",notes = "测试登录并返回所以用户信息")
+    @ApiOperation(value = "登录测试",notes = "测试登录并返回当前用户名")
     @RequestMapping(value = "login",method = RequestMethod.GET)
     public Object helloWorld(){
 //        List<String> studentName=mysqlService.getUserName();
