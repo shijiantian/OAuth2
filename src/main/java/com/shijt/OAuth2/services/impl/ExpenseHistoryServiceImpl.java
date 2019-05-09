@@ -13,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,7 +34,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    @Cacheable(value="expense",key="#pageNo")
+    @Cacheable(value="expense")
     public ControllerResult getExpenseHistory(int pageNo,int pageSize) {
         System.out.println("-------------分页查询历史记录！--------------");
         //获取总数
@@ -67,8 +68,8 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         return result;
     }
 
+    @CacheEvict(value="expense",allEntries = true)
     @Override
-    @Cacheable
     public void setExpenseHistory(ExpenseHistoryDto expenseHistoryDto) {
         ExpenseHistory expenseHistory=new ExpenseHistory(expenseHistoryDto);
         expenseHistoryDao.save(expenseHistory);
