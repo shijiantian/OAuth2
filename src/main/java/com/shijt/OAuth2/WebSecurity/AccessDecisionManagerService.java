@@ -1,5 +1,6 @@
 package com.shijt.OAuth2.WebSecurity;
 
+import com.shijt.OAuth2.Utils.ClassUtil;
 import com.shijt.OAuth2.vo.Role;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -37,8 +38,8 @@ public class AccessDecisionManagerService implements AccessDecisionManager {
             cfgAttr=iterator.next();
             resourceId=cfgAttr.getAttribute();
             for(GrantedAuthority ga:authentication.getAuthorities()){
-                if(ga instanceof Role){
-                    Role role=(Role) ga;
+                if(ClassUtil.CanonicalNameIsTheSame(ga,Role.class)){
+                    Role role=ClassUtil.serializableObjectCast(ga);
                     if(role.getResourceIds().contains(resourceId.trim())){
                         return;
                     }
