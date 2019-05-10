@@ -20,7 +20,7 @@ public class AuthTestController {
     private TestMysqlService mysqlService;
 
     @ApiOperation(value = "登录测试",notes = "测试登录并返回当前用户名")
-    @RequestMapping(value = "login",method = RequestMethod.GET)
+    @RequestMapping(value = "loginUser",method = RequestMethod.GET)
     public Object helloWorld(){
 //        List<String> studentName=mysqlService.getUserName();
         String studentName= SecurityContextHolder.getContext().getAuthentication().getName();
