@@ -10,9 +10,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,8 +32,10 @@ import java.io.InputStream;
 public class ExpenseController {
     @Autowired
     private ExpenseHistoryService expenseHistoryService;
-    @Value("${excel.files.addr}")
-    private String excelFilesAddr;
+//    @Value("${excel.files.addr}")
+//    private String excelFilesAddr;
+    @Value("${excel.files.dirName}")
+    private String dirName;
 
     @ApiOperation(value = "水电消费历史",notes = "获取历史水电消费记录")
     @RequestMapping(value = "getHistoryExpense/{pageNo}/{pageSize}",method = RequestMethod.GET)
@@ -46,8 +55,7 @@ public class ExpenseController {
     }
 
     @RequestMapping(value = "getExcel/{type}",method = RequestMethod.GET)
-    public Object getExcel(@PathVariable("type") int type){
-        String dirName="tempFiles";
+    public Object getExcel(@PathVariable("type") int type) throws IOException{
         File outputDir=new File(dirName);
         if(!outputDir.exists()){
             outputDir.mkdirs();
@@ -65,19 +73,35 @@ public class ExpenseController {
                 return new ControllerResult("无此类型",1001);
         }
         Workbook wb=expenseHistoryService.getExcelWorkbook(type);
-        try {
-            FileOutputStream localStream=new FileOutputStream(dirName+"/"+fileName);
-            wb.write(localStream);
-            localStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new ControllerResult(excelFilesAddr+fileName);
+
+        FileOutputStream localStream=new FileOutputStream(dirName+"/"+fileName);
+        wb.write(localStream);
+        localStream.close();
+
+        return downloadFile(dirName+"/"+fileName,HttpServletResponse.SC_OK);
+//        return new ControllerResult(excelFilesAddr+fileName);
 
     }
 
+    public ResponseEntity<InputStreamResource> downloadFile(String filePath,Integer httpStatus) throws IOException {
+        FileSystemResource file = new FileSystemResource(filePath);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getFilename()));
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        return ResponseEntity
+                .status(httpStatus)
+                .headers(headers)
+                .contentLength(file.contentLength())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(file.getInputStream()));
+    }
+
+
     @RequestMapping(value = "importMeterData",method = RequestMethod.POST)
-    public Object importMeterData(@RequestParam("importFile") MultipartFile importFile){
+    public Object importMeterData(@RequestParam("importFile") MultipartFile importFile) throws IOException{
         InputStream inputStream=null;
         Workbook wb=null;
         try {
@@ -90,16 +114,13 @@ public class ExpenseController {
         if(errorWb==null){
             return new ControllerResult("上传成功");
         }else{
-            String dirName="tempFiles";
+//            String dirName="tempFiles";
             String fileName="importErrors.xls";
-            try {
-                FileOutputStream localStream=new FileOutputStream(dirName+"/"+fileName);
-                errorWb.write(localStream);
-                localStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return new ControllerResult(excelFilesAddr+fileName,1001);
+            FileOutputStream localStream=new FileOutputStream(dirName+"/"+fileName);
+            errorWb.write(localStream);
+            localStream.close();
+            return downloadFile(dirName+"/"+fileName,HttpServletResponse.SC_CONFLICT);
+//            return new ControllerResult(excelFilesAddr+fileName,1001);
         }
     }
 
