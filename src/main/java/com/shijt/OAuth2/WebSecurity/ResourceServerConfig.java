@@ -27,9 +27,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            "/static/**",
-            "/login.html",
-            "/index.html"
+            "/tempFiles/**"
+
     };
 
     @Override
