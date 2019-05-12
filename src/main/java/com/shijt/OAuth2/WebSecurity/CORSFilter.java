@@ -29,7 +29,7 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, " +
                 "authorization, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, " +
                 "Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With");
-        response.setHeader("Access-Control-Expose-Headers","Location");
+        response.setHeader("Access-Control-Expose-Headers","Location,Content-Disposition");
 
         //预检请求的有效期
         response.setHeader("Access-Control-Max-Age","3600");
