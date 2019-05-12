@@ -295,6 +295,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         titleStyle.setAlignment(HorizontalAlignment.CENTER);
     }
 
+    @CacheEvict(value="expense",allEntries = true)
     public Workbook importMeterData(Workbook wb){
         List<ExpenseHistory> resultList=new ArrayList();
         List<String> errorInfoList=new ArrayList<>();
