@@ -1,4 +1,4 @@
- create table if not exists user(
+create table if not exists user(
     id bigint(20) not NULL auto_increment,
     name VARCHAR(8) not null,
     password VARCHAR(64) not null,
