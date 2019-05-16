@@ -8,7 +8,7 @@ public class ControllerResult implements Serializable {
 
     private Object result;
     private int errorCode;
-    private Object errorMsg;
+    private Object errors;
     private int totalPage;
     private int totalCount;
     private Object addition;
@@ -24,16 +24,16 @@ public class ControllerResult implements Serializable {
         this.errorCode = errorCode;
     }
 
-    public ControllerResult(Object result, int errorCode, Object errorMsg) {
+    public ControllerResult(Object result, int errorCode, Object errors) {
         this.result = result;
         this.errorCode = errorCode;
-        this.errorMsg = errorMsg;
+        this.errors = errors;
     }
 
-    public ControllerResult(Object result,int errorCode,Object errorMsg,int totalPage,int totalCount){
+    public ControllerResult(Object result,int errorCode,Object errors,int totalPage,int totalCount){
         this.result=result;
         this.errorCode=errorCode;
-        this.errorMsg=errorMsg;
+        this.errors=errors;
         this.totalPage=totalPage;
         this.totalCount=totalCount;
     }
@@ -46,8 +46,8 @@ public class ControllerResult implements Serializable {
         return errorCode;
     }
 
-    public Object getErrorMsg() {
-        return errorMsg;
+    public Object getErrors() {
+        return errors;
     }
 
     public void setResult(Object result) {
@@ -58,8 +58,8 @@ public class ControllerResult implements Serializable {
         this.errorCode = errorCode;
     }
 
-    public void setErrorMsg(Object errorMsg) {
-        this.errorMsg = errorMsg;
+    public void setErrors(Object errors) {
+        this.errors = errors;
     }
 
     public Object getTotalCount() {
