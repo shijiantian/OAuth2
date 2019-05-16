@@ -1,4 +1,4 @@
-package com.shijt.OAuth2.WebSecurity;
+package com.shijt.OAuth2.webSecurity;
 
 import com.shijt.OAuth2.commons.GlobalConsts;
 import com.shijt.OAuth2.services.impl.UserDetailsServiceImpl;

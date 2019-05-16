@@ -1,4 +1,4 @@
-package com.shijt.OAuth2.WebSecurity;
+package com.shijt.OAuth2.webSecurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;

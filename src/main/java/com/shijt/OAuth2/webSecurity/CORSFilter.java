@@ -1,4 +1,4 @@
-package com.shijt.OAuth2.WebSecurity;
+package com.shijt.OAuth2.webSecurity;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

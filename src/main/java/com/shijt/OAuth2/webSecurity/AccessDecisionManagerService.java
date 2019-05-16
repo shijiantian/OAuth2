@@ -1,6 +1,6 @@
-package com.shijt.OAuth2.WebSecurity;
+package com.shijt.OAuth2.webSecurity;
 
-import com.shijt.OAuth2.Utils.ClassUtil;
+import com.shijt.OAuth2.utils.ClassUtil;
 import com.shijt.OAuth2.vo.Role;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
