@@ -1,4 +1,4 @@
-package com.shijt.OAuth2.Utils;
+package com.shijt.OAuth2.utils;
 
 import org.springframework.util.StringUtils;
 
