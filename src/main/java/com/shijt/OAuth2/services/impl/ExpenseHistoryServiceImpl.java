@@ -1,13 +1,14 @@
 package com.shijt.OAuth2.services.impl;
 
-import com.shijt.OAuth2.Utils.DataConversionUtil;
-import com.shijt.OAuth2.Utils.DateFormatUtil;
 import com.shijt.OAuth2.commons.GlobalConsts;
 import com.shijt.OAuth2.dao.ExpenseHistoryDao;
 import com.shijt.OAuth2.dto.ControllerResult;
 import com.shijt.OAuth2.dto.EchartsOption;
+import com.shijt.OAuth2.dto.ErrorMsgDto;
 import com.shijt.OAuth2.dto.ExpenseHistoryDto;
 import com.shijt.OAuth2.services.ExpenseHistoryService;
+import com.shijt.OAuth2.utils.DataConversionUtil;
+import com.shijt.OAuth2.utils.DateFormatUtil;
 import com.shijt.OAuth2.vo.ExpenseHistory;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -147,7 +148,8 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
     }
 
     @Override
-    public boolean existsByMonth(String expenseDateStr) {
+    public List<ErrorMsgDto> existsByMonth(String expenseDateStr) {
+        List<ErrorMsgDto> result=null;
         Date expenseDate=DateFormatUtil.str2DayDate(expenseDateStr);
         Calendar startTime=Calendar.getInstance();
         startTime.setTime(expenseDate);
@@ -164,10 +166,10 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         sql.append("\"");
         Integer count=jdbcTemplate.queryForObject(sql.toString(),Integer.class);
         if(count!=null&&count>0){
-            return true;
-        }else{
-             return false;
+            result=new ArrayList<>();
+            result.add(new ErrorMsgDto("expenseDate","当月数据已存在"));
         }
+        return result;
     }
 
     @Override
@@ -312,8 +314,8 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
                 row.getCell(3).setCellType(CellType.STRING);
                 row.getCell(4).setCellType(CellType.STRING);
                 vo.setExpenseDate(DateFormatUtil.str2DayDate(row.getCell(0).getStringCellValue()));
-                boolean existFlag=this.existsByMonth(row.getCell(0).getStringCellValue());
-                if(existFlag){
+                List<ErrorMsgDto> errors=this.existsByMonth(row.getCell(0).getStringCellValue());
+                if(errors!=null){
                     errorCount++;
                     stringBuilder.delete(0,stringBuilder.length());
                     stringBuilder.append("第");
