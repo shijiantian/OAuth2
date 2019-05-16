@@ -17,4 +17,7 @@ public class GlobalConsts {
     public static final int refresh_token_valid_sec=10*60*60;
 
     public static final int error_code=10086;
+
+    public static final String float_regexp="^(-?\\d+)(\\.\\d+)?$";
+    public static final String int_regexp="^[1-9]\\d*$";
 }
