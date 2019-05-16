@@ -1,6 +1,6 @@
 package com.shijt.OAuth2.services.impl;
 
-import com.shijt.OAuth2.Utils.DataConversionUtil;
+import com.shijt.OAuth2.utils.DataConversionUtil;
 import com.shijt.OAuth2.dto.FileUploadInfo;
 import com.shijt.OAuth2.dto.FileUploadInfoStorage;
 import com.shijt.OAuth2.services.FileUploadService;
