@@ -1,17 +1,29 @@
 package com.shijt.OAuth2.dto;
 
+import com.shijt.OAuth2.commons.GlobalConsts;
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class ExpenseHistoryDto implements Serializable {
-    @NotNull
+    @NotNull(message = "非空整数")
+    @NumberFormat(pattern=GlobalConsts.int_regexp)
     private Integer waterCount;
-    @NotNull
+
+    @NotNull(message = "非空数字")
+    @NumberFormat(pattern = GlobalConsts.float_regexp)
     private Float waterPrice;
-    @NotNull
+
+
+    @NotNull(message = "非空整数")
+    @NumberFormat(pattern = GlobalConsts.int_regexp)
     private Integer elecCount;
-    @NotNull
+
+    @NumberFormat(pattern = GlobalConsts.float_regexp)
+    @NotNull(message = "非空数字")
     private Float elecPrice;
+
     private String expenseDate;
 
     public Integer getWaterCount() {
