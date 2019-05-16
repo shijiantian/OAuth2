@@ -1,6 +1,7 @@
 package com.shijt.OAuth2.services;
 
 import com.shijt.OAuth2.dto.ControllerResult;
+import com.shijt.OAuth2.dto.ErrorMsgDto;
 import com.shijt.OAuth2.dto.ExpenseHistoryDto;
 import com.shijt.OAuth2.vo.ExpenseHistory;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -19,7 +20,7 @@ public interface ExpenseHistoryService {
 
     List<ExpenseHistory> findByParams(ExpenseHistoryDto expenseHistoryDto);
 
-    boolean existsByMonth(String expenseDateStr);
+    List<ErrorMsgDto> existsByMonth(String expenseDateStr);
 
     Workbook getExcelWorkbook(int type);
 
