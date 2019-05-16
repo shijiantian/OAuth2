@@ -2,6 +2,7 @@ package com.shijt.OAuth2.controller;
 
 import com.shijt.OAuth2.commons.GlobalConsts;
 import com.shijt.OAuth2.dto.ControllerResult;
+import com.shijt.OAuth2.dto.ErrorMsgDto;
 import com.shijt.OAuth2.dto.ExpenseHistoryDto;
 import com.shijt.OAuth2.services.ExpenseHistoryService;
 import io.swagger.annotations.Api;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Api(value="水电开销控制器")
 @RestController
@@ -45,9 +46,9 @@ public class ExpenseController {
 
     @RequestMapping(value = "setHistoryExpense",method = RequestMethod.POST)
     public Object setHistoryExpense(@RequestBody @Valid ExpenseHistoryDto expenseHistoryDto){
-        boolean exist=expenseHistoryService.existsByMonth(expenseHistoryDto.getExpenseDate());
-        if(exist){
-            return new ControllerResult("当月数据已存在!",1001);
+        List<ErrorMsgDto> errors=expenseHistoryService.existsByMonth(expenseHistoryDto.getExpenseDate());
+        if(errors!=null){
+            return new ControllerResult("参数校验错误",1001,errors);
         }else{
             expenseHistoryService.setExpenseHistory(expenseHistoryDto);
             return new ControllerResult(200);
