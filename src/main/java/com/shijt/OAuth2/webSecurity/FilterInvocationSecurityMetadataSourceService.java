@@ -22,7 +22,7 @@ public class FilterInvocationSecurityMetadataSourceService implements FilterInvo
     @Autowired
     private ResourceDao resourceDao;
 
-    private HashMap<String,Collection<ConfigAttribute>> cfgAttrMap=null;
+    private volatile HashMap<String,Collection<ConfigAttribute>> cfgAttrMap=null;
 
     /**
      * 返回请求url需要的权限
@@ -50,16 +50,18 @@ public class FilterInvocationSecurityMetadataSourceService implements FilterInvo
     /**
      * 加载所有resource
      */
-    private void loadResources() {
-        cfgAttrMap=new HashMap<>();
-        Iterable<Resource> resources= resourceDao.findAll();
-        resources.forEach(resource->{
-            Collection<ConfigAttribute> cfgAttrs=new ArrayList<>();
-            ConfigAttribute cfgAttr=new SecurityConfig(""+resource.getResourceId());
-            cfgAttrs.add(cfgAttr);
-            cfgAttrMap.put(resource.getUrl(),cfgAttrs);
+    private synchronized void loadResources() {
+        if(cfgAttrMap==null){
+            cfgAttrMap=new HashMap<>();
+            Iterable<Resource> resources= resourceDao.findAll();
+            resources.forEach(resource->{
+                Collection<ConfigAttribute> cfgAttrs=new ArrayList<>();
+                ConfigAttribute cfgAttr=new SecurityConfig(""+resource.getResourceId());
+                cfgAttrs.add(cfgAttr);
+                cfgAttrMap.put(resource.getUrl(),cfgAttrs);
 
-        });
+            });
+        }
     }
 
     @Override
