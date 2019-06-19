@@ -37,7 +37,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         FileUploadInfoStorage storage = FileUploadInfoStorage.getInstance();
         FileUploadInfo info = storage.get(resumableChunkSize, resumableTotalSize,
                 resumableIdentifier, resumableFilename, resumableRelativePath, resumableFilePath);
-        if (!info.vaild())         {
+        if (!info.vaild()){
             storage.remove(info);
             try {
                 throw new ServletException("Invalid request params.");
