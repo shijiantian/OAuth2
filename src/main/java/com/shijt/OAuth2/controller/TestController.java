@@ -6,7 +6,6 @@ import com.shijt.OAuth2.utils.SerializeUtil;
 import com.shijt.OAuth2.vo.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import javassist.bytecode.ByteArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
