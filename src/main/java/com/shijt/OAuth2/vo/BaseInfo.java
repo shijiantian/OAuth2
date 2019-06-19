@@ -1,9 +1,10 @@
 package com.shijt.OAuth2.vo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
-public class BaseInfo {
+public class BaseInfo implements Serializable {
 
 
     private Date createTime;
