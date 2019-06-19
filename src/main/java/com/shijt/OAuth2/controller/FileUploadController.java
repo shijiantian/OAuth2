@@ -30,6 +30,7 @@ public class FileUploadController {
     @Autowired
     private FileUploadService fileUploadService;
 
+    //分块上传状态检测
     @RequestMapping(value = "fileUpload",method = RequestMethod.GET)
     public Object doGet(HttpServletRequest request, HttpServletResponse response){
         int resumableChunkNumber=fileUploadService.getResumableChunkNumber(request);
@@ -43,6 +44,7 @@ public class FileUploadController {
         }
     }
 
+    //进行分块的上传
     @RequestMapping(value = "fileUpload",method = RequestMethod.POST)
     public Object doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         int resumableChunkNumber = fileUploadService.getResumableChunkNumber(request);
@@ -79,7 +81,7 @@ public class FileUploadController {
             FileUploadInfoStorage.getInstance().remove(info);
             return new ControllerResult("全部上传完成");
         } else {
-            return new ControllerResult("切块上传完成");
+            return new ControllerResult("分块上传完成");
         }
     }
 
