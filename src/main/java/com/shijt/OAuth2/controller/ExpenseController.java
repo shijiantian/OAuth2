@@ -125,4 +125,10 @@ public class ExpenseController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping(value = "deleteExpenseHistory/{id}",method = RequestMethod.DELETE)
+    public Object deleteExpenseHistory(@PathVariable("id") Long id){
+        return expenseHistoryService.deleteById(id);
+    }
+
 }
