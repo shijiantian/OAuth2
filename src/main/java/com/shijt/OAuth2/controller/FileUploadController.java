@@ -22,67 +22,22 @@ import java.io.RandomAccessFile;
 
 @Api(value = "文件上传控制器")
 @RestController
-@RequestMapping(value = GlobalConsts.login_no_need)
+@RequestMapping(value = GlobalConsts.login_need)
 public class FileUploadController {
 
-    @Value("${file.upload.addr}")
-    private String uploadAddr;
     @Autowired
     private FileUploadService fileUploadService;
 
     //分块上传状态检测
     @RequestMapping(value = "fileUpload",method = RequestMethod.GET)
     public Object doGet(HttpServletRequest request, HttpServletResponse response){
-        int resumableChunkNumber=fileUploadService.getResumableChunkNumber(request);
-        FileUploadInfo info=fileUploadService.getFileUploadInfo(request);
-
-        if (info.uploadedChunks.contains(resumableChunkNumber)) {
-            return new ControllerResult("已上传");
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return new ControllerResult("未上传");
-        }
+        return fileUploadService.checkChunkStatus(request,response);
     }
 
     //进行分块的上传
     @RequestMapping(value = "fileUpload",method = RequestMethod.POST)
     public Object doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        int resumableChunkNumber = fileUploadService.getResumableChunkNumber(request);
-        FileUploadInfo info = fileUploadService.getFileUploadInfo(request);
-        RandomAccessFile raf = null;
-        try {
-            raf = new RandomAccessFile(info.getResumableFilePath(), "rw");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        //查找chunk位置
-        raf.seek((resumableChunkNumber - 1) * (long)info.getResumableChunkSize());
-
-        //写入磁盘
-        InputStream is = request.getInputStream();
-        long readed = 0;
-        long content_length = request.getContentLength();
-        byte[] bytes = new byte[1024 * 100];
-        while(readed < content_length) {
-            int r = is.read(bytes);
-            if (r < 0)  {
-                break;
-            }
-            raf.write(bytes, 0, r);
-            readed += r;
-        }
-        raf.close();
-
-
-        //chunk上传完成.
-        info.uploadedChunks.add(resumableChunkNumber);
-        if (info.checkIfUploadFinished()) { //Check if all chunks uploaded, and change filename
-            FileUploadInfoStorage.getInstance().remove(info);
-            return new ControllerResult("全部上传完成");
-        } else {
-            return new ControllerResult("分块上传完成");
-        }
+        return fileUploadService.writeChunkToDisk(request,response);
     }
 
 }
