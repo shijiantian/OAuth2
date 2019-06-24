@@ -41,7 +41,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         //获取总数
         Integer totalCount=expenseHistoryDao.getTotalCount();
         //计算页面数量
-        int totalPageNo= (int)Math.ceil(totalCount.doubleValue()/pageSize);
+        int totalPageNo= (int)Math.ceil((totalCount.doubleValue()-1)/pageSize);
         List<ExpenseHistory> expenseHistorys=getPageSelectResult(pageNo,pageSize,1);
 
         Map<String,Integer> waterCountMap= expenseHistorys.stream()
@@ -54,6 +54,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
             ExpenseHistory vo=expenseHistorys.get(i);
             Date laseMonth=DateFormatUtil.getPreviousMonth(vo.getExpenseDate(),-1);
             ExpenseHistoryDto dto=new ExpenseHistoryDto();
+            dto.setId(vo.getId());
             dto.setExpenseDate(DateFormatUtil.date2DayStr(vo.getExpenseDate()));
             dto.setElecPrice(vo.getElecPrice());
             dto.setWaterPrice(vo.getWaterPrice());
@@ -365,6 +366,13 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         }else{
             return null;
         }
+    }
+
+    @Override
+    @CacheEvict(value="expense",allEntries = true)
+    public ControllerResult deleteById(Long id) {
+        expenseHistoryDao.deleteById(id);
+        return new ControllerResult(200);
     }
 
     private Workbook createErrorExcel(List<String> errorInfoList) {
