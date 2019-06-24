@@ -25,4 +25,6 @@ public interface ExpenseHistoryService {
     Workbook getExcelWorkbook(int type);
 
     Workbook importMeterData(Workbook wb);
+
+    ControllerResult deleteById(Long id);
 }
