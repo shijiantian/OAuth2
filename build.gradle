@@ -51,6 +51,13 @@ dependencies {
 	compile('org.apache.poi:poi:4.0.1')
 	compile('org.apache.poi:poi-ooxml:4.0.1')
 
+	// JAX-B dependencies for JDK 9+
+	implementation('javax.xml.bind:jaxb-api:2.2.11')
+	implementation('com.sun.xml.bind:jaxb-core:2.2.11')
+	implementation('com.sun.xml.bind:jaxb-impl:2.2.11')
+	implementation('javax.activation:activation:1.1.1')
+	implementation('org.javassist:javassist:3.25.0-GA')
+
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
