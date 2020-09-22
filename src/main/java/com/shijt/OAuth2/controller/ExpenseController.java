@@ -44,6 +44,12 @@ public class ExpenseController {
         return expenseHistoryService.getExpenseHistory(pageNo,pageSize);
     }
 
+    @ApiOperation(value = "水表电表数据",notes = "获取水表电表数据")
+    @RequestMapping(value = "getMeterHistory/{pageNo}/{pageSize}",method = RequestMethod.GET)
+    public Object getMeterHistory(@PathVariable("pageNo")int pageNo,@PathVariable("pageSize")int pageSize){
+        return expenseHistoryService.getMeterHistory(pageNo,pageSize);
+    }
+
     @RequestMapping(value = "setHistoryExpense",method = RequestMethod.POST)
     public Object setHistoryExpense(@RequestBody @Valid ExpenseHistoryDto expenseHistoryDto){
         List<ErrorMsgDto> errors=expenseHistoryService.existsByMonth(expenseHistoryDto.getExpenseDate());

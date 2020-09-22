@@ -3,6 +3,7 @@ buildscript {
 		springBootVersion = '2.0.4.RELEASE'
 	}
 	repositories {
+		mavenLocal()
 		maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
 		mavenCentral()
 	}
@@ -58,7 +59,6 @@ dependencies {
 	implementation('javax.activation:activation:1.1.1')
 	implementation('org.javassist:javassist:3.25.0-GA')
 
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 jar {

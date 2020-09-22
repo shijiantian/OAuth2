@@ -1,6 +1,8 @@
 create table if not exists user(
     id bigint(20) not NULL auto_increment,
     name VARCHAR(8) not null,
+    sex VARCHAR(1) not null,
+    age VARCHAR(3) not null,
     password VARCHAR(64) not null,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -50,3 +52,5 @@ create table if not exists expense_history(
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(id)
 )engine=InnoDB;
+
+create or replace view user_base_info as select a.id id,a.name name,a.sex sex,a.age age,c.name role_name from user a left join user_role b on a.id=b.user_id left join role c on b.role_id=c.id;

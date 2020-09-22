@@ -4,6 +4,7 @@ import com.shijt.OAuth2.dao.RoleDao;
 import com.shijt.OAuth2.dao.RoleResourceDao;
 import com.shijt.OAuth2.dao.UserDao;
 import com.shijt.OAuth2.dao.UserRoleDao;
+import com.shijt.OAuth2.dto.UserDetailsDto;
 import com.shijt.OAuth2.vo.Role;
 import com.shijt.OAuth2.vo.RoleResource;
 import com.shijt.OAuth2.vo.User;
@@ -46,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             role.setResourceIds(resourceIds);
             authorities.add(role);
         });
-        return new org.springframework.security.core.userdetails.User(user.getName(),
-                user.getPassword(),authorities);
+
+        return new UserDetailsDto(user.getName(),user.getPassword(),authorities,user.getId());
     }
 }

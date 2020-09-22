@@ -375,6 +375,29 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
         return new ControllerResult(200);
     }
 
+    @Override
+    public ControllerResult getMeterHistory(int pageNo, int pageSize) {
+        System.out.println("-------------分页查询历史记录！--------------");
+        //获取总数
+        Integer totalCount=expenseHistoryDao.getTotalCount();
+        //计算页面数量
+        int totalPageNo= (int)Math.ceil((totalCount.doubleValue()-1)/pageSize);
+        List<ExpenseHistory> expenseHistorys=getPageSelectResult(pageNo,pageSize,1);
+        //处理数据
+        List<ExpenseHistoryDto> resultList=expenseHistorys.stream().map(vo->{
+            ExpenseHistoryDto ehd=new ExpenseHistoryDto();
+            ehd.setId(vo.getId());
+            ehd.setExpenseDate(DateFormatUtil.date2DayStr(vo.getExpenseDate()));
+            ehd.setElecCount(vo.getElecCount());
+            ehd.setElecPrice(vo.getElecPrice());
+            ehd.setWaterCount(vo.getWaterCount());
+            ehd.setWaterPrice(vo.getWaterPrice());
+            return ehd;
+        }).collect(Collectors.toList());
+        ControllerResult result=new ControllerResult(resultList,0,null,totalPageNo,totalCount);
+        return result;
+    }
+
     private Workbook createErrorExcel(List<String> errorInfoList) {
         Workbook wb=new HSSFWorkbook();
         Sheet sheet=wb.createSheet("导入错误汇总");
