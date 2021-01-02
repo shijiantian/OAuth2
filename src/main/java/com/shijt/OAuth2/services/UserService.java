@@ -6,4 +6,6 @@ public interface UserService {
     String addUser(User user);
 
     Object getUserBaseInfoById(Long id);
+
+    User findById(Long uid);
 }

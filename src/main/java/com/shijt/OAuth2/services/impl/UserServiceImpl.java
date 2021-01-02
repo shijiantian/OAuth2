@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
         return ubi;
     }
 
+    @Override
+    public User findById(Long uid) {
+        return userDao.findById(uid).orElse(null);
+    }
+
     @Transactional
     private void saveUser(User user) {
         userDao.save(user);

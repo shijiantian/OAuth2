@@ -46,11 +46,11 @@ public class SwaggerConfig {
 
     private OAuth securitySchema() {
 
-        List<AuthorizationScope> authorizationScopeList = new ArrayList();
+        List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
         authorizationScopeList.add(new AuthorizationScope("all","access all"));
         authorizationScopeList.add(new AuthorizationScope("read", "read all"));
         authorizationScopeList.add(new AuthorizationScope("write", "write all"));
-        List<GrantType> grantTypes = new ArrayList();
+        List<GrantType> grantTypes = new ArrayList<GrantType>();
         GrantType passwordCredentialsGrant = new ResourceOwnerPasswordCredentialsGrant(accessTokenUri);
         grantTypes.add(passwordCredentialsGrant);
         return new OAuth("oauth2", authorizationScopeList, grantTypes);

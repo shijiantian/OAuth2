@@ -300,7 +300,7 @@ public class ExpenseHistoryServiceImpl implements ExpenseHistoryService {
 
     @CacheEvict(value="expense",allEntries = true)
     public Workbook importMeterData(Workbook wb){
-        List<ExpenseHistory> resultList=new ArrayList();
+        List<ExpenseHistory> resultList=new ArrayList<ExpenseHistory>();
         List<String> errorInfoList=new ArrayList<>();
         StringBuilder stringBuilder=new StringBuilder();
         Sheet sheet=wb.getSheetAt(0);
