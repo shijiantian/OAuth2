@@ -38,6 +38,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean updatePasswd(User user){
+        try{
+            userDao.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
     public Object getUserBaseInfoById(Long id) {
         UserBaseInfo ubi=userBaseInfoDao.findById(id).orElse(null);
         return ubi;

@@ -35,4 +35,15 @@ public class UserController {
             return new ControllerResult(false);
         }
     }
+
+    @RequestMapping(value="updatePasswd",method = RequestMethod.POST)
+    public Object updatePassword(@RequestBody Map<String,String> params){
+        BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+        String newPasswd=params.get("newPasswd");
+        Long uid=((UserDetailsDto)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        User user=userService.findById(uid);
+        user.setPassword(encoder.encode(newPasswd));
+        boolean result=userService.updatePasswd(user);
+        return new ControllerResult(result);
+    }
 }
